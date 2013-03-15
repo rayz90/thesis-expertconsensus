@@ -11,12 +11,12 @@ public class ExpertConsensus {
 	/* Initial parameters */
 	private ArrayList<Expert> experts;
 	private Ranking initRank;
-	
+
 	private Ranking bestRanking = null;
 	private double bestDistance = 0;
 	private double[] bestIndividualdistance;
-	
-    public ExpertConsensus(ArrayList<Expert> experts, Ranking initRank) {
+
+	public ExpertConsensus(ArrayList<Expert> experts, Ranking initRank) {
 		super();
 		this.experts = experts;
 		this.initRank = initRank;
@@ -26,12 +26,13 @@ public class ExpertConsensus {
 	}
 
 	public void solve() {
-        Collection<List<Criterion>> permutations = Collections2.permutations(initRank);
-        
-        bestDistance = 0;
-        bestRanking = initRank;
-        bestIndividualdistance = new double[experts.size()];
-        for (List<Criterion> permutation : permutations) {
+		Collection<List<Criterion>> permutations = Collections2
+				.permutations(initRank);
+
+		bestDistance = 0;
+		bestRanking = initRank;
+		bestIndividualdistance = new double[experts.size()];
+		for (List<Criterion> permutation : permutations) {
 			Ranking ranking = new Ranking();
 			ranking.addAll(permutation);
 
@@ -49,30 +50,32 @@ public class ExpertConsensus {
 
 			if (totaldistance < bestDistance)
 				continue;
-			
-			if (totaldistance == bestDistance && 
-					ListMath.sd(bestIndividualdistance) < ListMath.sd(individualdistance)) {
-					continue;
+
+			if (totaldistance == bestDistance
+					&& ListMath.sd(bestIndividualdistance) < ListMath
+							.sd(individualdistance)) {
+				continue;
 			}
 			bestDistance = totaldistance;
 			bestRanking = ranking;
 			bestIndividualdistance = individualdistance;
 
 		}
-        
-    }
-    
-    public void printResults() {
-    	if (bestRanking == null) return;
-        System.out.println("Best Distance:" + bestDistance + "\n");
-        System.out.println(bestRanking.toString());
-        
-        
-        System.out.println("Individual score:");
-        for (int i=0;i<bestIndividualdistance.length;i++) {
-            System.out.println(experts.get(i).getName() + " - " + bestIndividualdistance[i]);
-        }
-    }
+
+	}
+
+	public void printResults() {
+		if (bestRanking == null)
+			return;
+		System.out.println("Best Distance:" + bestDistance + "\n");
+		System.out.println(bestRanking.toString());
+
+		System.out.println("Individual score:");
+		for (int i = 0; i < bestIndividualdistance.length; i++) {
+			System.out.println(experts.get(i).getName() + " - "
+					+ bestIndividualdistance[i]);
+		}
+	}
 
 	public ArrayList<Expert> getExperts() {
 		return experts;
@@ -100,6 +103,6 @@ public class ExpertConsensus {
 
 	public double[] getBestIndividualdistance() {
 		return bestIndividualdistance;
-	}   
-    
+	}
+
 }

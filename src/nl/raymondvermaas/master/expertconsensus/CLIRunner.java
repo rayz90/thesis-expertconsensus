@@ -13,22 +13,20 @@ public class CLIRunner {
 			System.out.println("Usage: <file.csv> <base.xml> [startCritId]");
 			return;
 		}
-		
+
 		String csvfile = args[0];
 		String xmlfile = args[1];
 		int startCrit = Integer.parseInt(args[2]);
 
-		Import importer = new ImportResultCsv(
-				"/home/raymondv/Dropbox/Master/Thesis/data/20130214_results_clean.csv",
-				9, 5);
+		Import importer = new ImportResultCsv(csvfile, 9, 5);
 		((ImportResultCsv) importer).read();
 		Ranking initRank = importer.getCriteria();
 		ArrayList<Expert> experts = (ArrayList<Expert>) importer.getExperts();
 
 		ExpertConsensus ec = new ExpertConsensus(experts, initRank);
 		ec.solve();
-		//ec.printResults();
-		
+		ec.printResults();
+
 		XMLWriter xml = new XMLWriter(ec.getBestRanking(), xmlfile, startCrit);
 		xml.write();
 	}
